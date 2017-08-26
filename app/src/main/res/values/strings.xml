@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">WifiMobileDataToggler</string>
+    <string name="wifi_toggle">Wifi Toggle</string>
+</resources>
