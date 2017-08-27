@@ -1,5 +1,7 @@
 package com.example.icyfillup.wifimobiledatatoggler;
 
+import android.content.Context;
+import android.net.wifi.WifiManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,25 +17,26 @@ public class MainActivity extends AppCompatActivity {
 
     private ToggleButton WifiToggle;
     private TextView WifiToggleMessageTextView;
+    private WifiManager wifiManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        WifiToggle = (ToggleButton)findViewById(R.id.wifi_toggle);
+        WifiToggle = (ToggleButton) findViewById(R.id.wifi_toggle);
         WifiToggleMessageTextView = (TextView) findViewById(R.id.wifi_toggle_message);
-
+        wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
 
         WifiToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                if(checked)
-                {
+                if (checked) {
+                    wifiManager.setWifiEnabled(true);
                     WifiToggleMessageTextView.setText("On");
                 }
-                else
-                {
+                else {
+                    wifiManager.setWifiEnabled(false);
                     WifiToggleMessageTextView.setText("Off");
                 }
             }
@@ -44,14 +47,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        if(WifiToggle.isChecked())
-        {
+        if (wifiManager.isWifiEnabled()) {
             WifiToggleMessageTextView.setText("On");
+            WifiToggle.setChecked(true);
         }
-        else
-        {
+        else {
             WifiToggleMessageTextView.setText("Off");
+            WifiToggle.setChecked(false);
         }
+
     }
 
     @Override
